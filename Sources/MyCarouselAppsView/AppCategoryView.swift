@@ -8,12 +8,17 @@
 import SwiftUI
 import ViewModifierKit
 
-struct AppCategoryView: View {
+public struct AppCategoryView: View {
     // MARK: - Properties
     var card: AppCardModel
     var title: Text
     
-    var body: some View {
+    public init(card: AppCardModel, title: Text) {
+        self.card = card
+        self.title = title
+    }
+    
+    public var body: some View {
         VStack {
             title
                 .textViewModifier(for: .caption, weight: .regular, color: .secondary)

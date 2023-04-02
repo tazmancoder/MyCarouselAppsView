@@ -10,14 +10,18 @@ import SwiftUI
 import ViewModifierKit
 import DeviceKit
 
-struct AppDescriptionView: View {
+public struct AppDescriptionView: View {
     // MARK: - Properties
     var card: AppCardModel
     
     // MARK: - State
     @State private var device = Device.current
     
-    var body: some View {
+    public init(card: AppCardModel) {
+        self.card = card
+    }
+    
+    public var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 // App What's New Section

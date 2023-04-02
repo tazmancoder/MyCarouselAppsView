@@ -9,7 +9,7 @@ import SwiftUI
 import DeviceKit
 import ViewModifierKit
 
-struct EnlargeQRCodeView: View {
+public struct EnlargeQRCodeView: View {
     // MARK: - Environment
     @Environment(\.dismiss) var dismiss
     
@@ -19,7 +19,11 @@ struct EnlargeQRCodeView: View {
     // MARK: - State
     @State private var device = Device.current
     
-    var body: some View {
+    public init(card: AppCardModel) {
+        self.card = card
+    }
+    
+    public var body: some View {
         VStack {
             AsyncImage(url: URL(string: card.appData.artworkUrl100!)) { image in
                 image

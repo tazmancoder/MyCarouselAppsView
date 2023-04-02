@@ -13,31 +13,39 @@ public struct MyCarouselAppsView: View {
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Properties
-    var cards: [AppCardModel]
+    var urlString: String
     
-    public init(cards: [AppCardModel]) {
-        
+    // MARK: - State
+    @State private var store = Store()
+    
+    public init(from urlString: String) {
+        self.urlString = urlString
+        fetchDataAndDecode(from: URL(string: urlString)!, to: store)
     }
     
     public var body: some View {
-        TabView {
-            ForEach(cards) { card in
-                CardView(card: card)
-                    .bottomPadding()
+        VStack {
+            TabView {
+                ForEach(store.storeData) { card in
+                    let _ = print("Got Here")
+                    let _ = print("AppName: \(card.appData.trackName ?? "No Track Name")")
+                    CardView(card: card)
+                        .bottomPadding()
+                }
             }
-        }
-        .tabViewStyle(.page(indexDisplayMode: .always))
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { dismiss() }, label: {
-                    Text("Cancel")
-                        .textViewModifier(for: .body, weight: .regular, color: .accentColor)
-                })
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }, label: {
+                        Text("Cancel")
+                            .textViewModifier(for: .body, weight: .regular, color: .accentColor)
+                    })
+                }
             }
         }
     }
-    
+        
     func fetchDataAndDecode(from url: URL, to store: Store) {
         Task {
             do {
@@ -63,6 +71,7 @@ public struct MyCarouselAppsView: View {
         for datum in data {
             if datum.trackName != nil {
                 model.append(AppCardModel(id: UUID(), appData: datum))
+                print("AppName: \(datum.trackName!)")
             }
         }
 
@@ -72,7 +81,7 @@ public struct MyCarouselAppsView: View {
 }
 
 // MARK: - CardView
-struct CardView: View {
+public struct CardView: View {
     // MARK: - Environment
     @Environment(\.dismiss) var dismiss
 
@@ -82,7 +91,11 @@ struct CardView: View {
     // MARK: - Properties
     var card: AppCardModel
     
-    var body: some View {
+    public init(card: AppCardModel) {
+        self.card = card
+    }
+    
+    public var body: some View {
         VStack {
             CardPageHeaderView(card: card, showLargerQRCode: $showLargerQRCode)
             

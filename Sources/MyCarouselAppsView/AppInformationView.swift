@@ -8,11 +8,16 @@
 import SwiftUI
 import DeviceKit
 
-struct AppInformationView: View {
+public struct AppInformationView: View {
+    @State private var device = Device.current
+
     var card: AppCardModel
-    var device = Device.current
     
-    var body: some View {
+    public init(card: AppCardModel) {
+        self.card = card
+    }
+    
+    public var body: some View {
         GeometryReader { geo in
             HStack {
                 Spacer()

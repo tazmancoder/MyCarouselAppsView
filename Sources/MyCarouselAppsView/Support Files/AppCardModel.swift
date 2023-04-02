@@ -12,7 +12,7 @@ protocol AppCardModelProtocol: Identifiable {
     var appData: AppDataJSON { get }
 }
 
-struct AppCardModel: AppCardModelProtocol {
-    var id: UUID
+public struct AppCardModel: AppCardModelProtocol {
+    public var id: UUID
     var appData: AppDataJSON
 }

@@ -9,7 +9,7 @@ import SwiftUI
 import DeviceKit
 import ViewModifierKit
 
-struct CardPageHeaderView: View {
+public struct CardPageHeaderView: View {
     // MARK: - Properties
     var card: AppCardModel
     
@@ -19,7 +19,12 @@ struct CardPageHeaderView: View {
     // MARK: - State
     @State private var device = Device.current
     
-    var body: some View {
+    public init(card: AppCardModel, showLargerQRCode: Binding<Bool>) {
+        self.card = card
+        self._showLargerQRCode = showLargerQRCode // How to set a @Binding property wrapper
+    }
+    
+    public var body: some View {
         HStack {
             AsyncImage(url: URL(string: card.appData.artworkUrl100!)) { image in
                 image
